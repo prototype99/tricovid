@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d7e1824ca61ffaf1",
+        "id": "02017db00993c8a6",
         "type": "tabs",
         "children": [
           {
-            "id": "c00da1d4f5e14ece",
+            "id": "41ec21a3bf8b9cb4",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for README"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from README"
             }
           },
           {
@@ -150,12 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of README"
             }
           }
         ]
@@ -176,6 +183,15 @@
       "bases:Create new base": false
     }
   },
-  "active": "c00da1d4f5e14ece",
-  "lastOpenFiles": []
+  "active": "41ec21a3bf8b9cb4",
+  "lastOpenFiles": [
+    "doc/getting-started.md",
+    "doc/covid19api.md",
+    "README.md",
+    "doc/intellij.md",
+    "doc/ide.md",
+    "doc/obsidian.md",
+    "doc/teams0.png",
+    "doc/gitkraken.png"
+  ]
 }
