@@ -1,4 +1,4 @@
-https://coronavirus.data.gov.uk/details/developers-guide
+https://ukhsa-dashboard.data.gov.uk/access-our-data
 api that covers the #UK . Needs input to be in #json.
 ##### available data:
 - #cases
