@@ -12,8 +12,4 @@ api that covers the #UK . Needs input to be in #json.
 - #area
 - #date
 ##### supported languages are:
-- #C-sharp
-- #elixir
-- #javascript
-- #python
-- #R
+anything that can do #json 
