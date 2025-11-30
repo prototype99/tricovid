@@ -1,1 +1,1 @@
-Load up [obsidian](obsidian.md) for a full view of the documentation. development is best done with an [[ide]].
+development is best done with an [[ide]]. see [[lib]] for dependencies

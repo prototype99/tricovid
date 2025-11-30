@@ -1,9 +1,9 @@
 # tricovid
 
-This is intended purely for entertainment purposes and coding practice. Do not use this as a primary source of information, the source appears to have accuracy issues
+The api this project used is now discontinued, therefore it is unlikely this will be updated unless a new api is found
 
-University project working on making a covid-19 tracker that uses an online [[covid19api]].
+University project working on making a covid-19 tracker that uses the [[uk-gov-api]] for covid.
 
-Best viewed in [obsidian](obsidian.md)!
+Load up [obsidian](obsidian.md) for a full view of the documentation.
 
 Please do not be daunted, [getting started](getting-started.md) is easy!

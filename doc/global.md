@@ -1,1 +1,0 @@
-All, or most of the world. Includes the #UK
