@@ -77,6 +77,9 @@ public class Main {
                     "themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
             )
                     .getArray();
+            for(Object region : regions){
+                System.out.println(region);
+            }
         } catch (JSONException | NullPointerException e) {
             System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
             regions = new JSONArray();
