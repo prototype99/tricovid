@@ -75,16 +75,17 @@ public class Main {
             //get data
             top = download(
                     "themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
-            ).getObject().getJSONArray("Countries");
+            )
+                    .getArray();
         } catch (JSONException | NullPointerException e) {
             System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
             top = new JSONArray();
         }
         //initialise array
         data  = new ArrayList<>();
-        //iterate through the countries
+        //iterate through the regions
         for (int i = 0;i<top.length();i++) {
-            //retrieve an individual country
+            //retrieve an individual region
             JSONObject j = top.getJSONObject(i);
             //we need these stored in memory because they're used twice
             String countryCode = j.getString("CountryCode");
