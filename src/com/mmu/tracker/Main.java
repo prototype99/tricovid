@@ -70,23 +70,23 @@ public class Main {
     }
     static void loadData(JComboBox<String> searchBar){
         //make sure variable is accessible
-        JSONArray top;
+        JSONArray regions;
         try {
             //get data
-            top = download(
+            regions = download(
                     "themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
             )
                     .getArray();
         } catch (JSONException | NullPointerException e) {
             System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
-            top = new JSONArray();
+            regions = new JSONArray();
         }
         //initialise array
         data  = new ArrayList<>();
         //iterate through the regions
-        for (int i = 0;i<top.length();i++) {
+        for (int i = 0;i<regions.length();i++) {
             //retrieve an individual region
-            JSONObject j = top.getJSONObject(i);
+            JSONObject j = regions.getJSONObject(i);
             //we need these stored in memory because they're used twice
             String countryCode = j.getString("CountryCode");
             String countryExternalName = j.getString("Country");
