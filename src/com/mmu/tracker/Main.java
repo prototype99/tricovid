@@ -89,7 +89,9 @@ public class Main {
                 );
             }
         } catch (JSONException | NullPointerException e) {
-            System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
+            System.out.println(
+                    "json parsing failed, is data correct? try clicking refresh"
+            );
             regions = new JSONArray();
         }
         //initialise array
