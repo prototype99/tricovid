@@ -73,7 +73,7 @@ public class Main {
         JSONArray top;
         try {
             //get data
-            top = download("summary").getObject().getJSONArray("Countries");
+            top = download("themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies").getObject().getJSONArray("Countries");
         } catch (JSONException | NullPointerException e) {
             System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
             top = new JSONArray();
