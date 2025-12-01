@@ -77,8 +77,16 @@ public class Main {
                     "themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
             )
                     .getArray();
+            //iterate over all the regions
             for(Object region : regions){
-                System.out.println(region);
+                //add each region to the dropdown list
+                searchBar.addItem(
+                        (
+                                (JSONObject) region
+                        ).getString(
+                                "name"
+                        )
+                );
             }
         } catch (JSONException | NullPointerException e) {
             System.out.println("json parsing failed, is data correct?\ntry clicking refresh");
