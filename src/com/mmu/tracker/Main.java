@@ -92,34 +92,6 @@ public class Main {
             System.out.println(
                     "json parsing failed, is data correct? try clicking refresh"
             );
-            regions = new JSONArray();
-        }
-        //initialise array
-        data  = new ArrayList<>();
-        //iterate through the regions
-        for (int i = 0;i<regions.length();i++) {
-            //retrieve an individual region
-            JSONObject j = regions.getJSONObject(i);
-            //we need these stored in memory because they're used twice
-            String countryCode = j.getString("CountryCode");
-            String countryExternalName = j.getString("Country");
-            String countryInternalName = j.getString("Slug");
-            //we have to store these for calculating the case variables
-            int deathAll = j.getInt("TotalDeaths");
-            int deathNew = j.getInt("NewDeaths");
-            int recoveryAll = j.getInt("TotalRecovered");
-            int recoveryNew = j.getInt("NewRecovered");
-            //add currently loaded country to list
-            data.add(new CovidRecord(countryCode, countryExternalName, countryInternalName,
-                    j.getString("Date"), deathAll, deathNew, recoveryAll, recoveryNew,
-                    (j.getInt("TotalConfirmed") - (deathAll + recoveryAll)), (j.getInt(
-                            "NewConfirmed") - (deathNew + recoveryNew))));
-            searchBar.addItem(countryCode);
-            searchBar.addItem(countryInternalName);
-            //keep dropdown list clean
-            if(!countryExternalName.equalsIgnoreCase(countryInternalName)){
-                searchBar.addItem(countryExternalName);
-            }
         }
     }
     static void loadCountry(String s, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
