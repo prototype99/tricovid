@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e0af79caf0928369",
+        "id": "d7c0ada47fa8b120",
         "type": "tabs",
         "children": [
           {
-            "id": "ab4ed0eeb5c9aceb",
+            "id": "965832f75e2503f3",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -179,21 +179,22 @@
       "bases:Create new base": false
     }
   },
-  "active": "ab4ed0eeb5c9aceb",
+  "active": "965832f75e2503f3",
   "lastOpenFiles": [
+    "gson.md",
+    "doc/lib.md",
     "src/com/mmu/tracker/Main.java~",
+    "out/production/tricovid/com/mmu/tracker/Main.class",
+    "out/production/tricovid/com/google/gson/internal/bind/MapTypeAdapterFactory.class",
+    "out/production/tricovid/com/google/gson/internal/bind/MapTypeAdapterFactory$Adapter.class",
+    "out/production/tricovid/com/google/gson/internal/bind/ObjectTypeAdapter.class",
+    "out/production/tricovid/com/google/gson/internal/bind/ObjectTypeAdapter$2.class",
+    "out/production/tricovid/com/google/gson/internal/bind/ObjectTypeAdapter$1.class",
+    "out/production/tricovid/com/google/gson/internal/JavaVersion.class",
+    "out/production/tricovid/com/google/gson/internal/JsonReaderInternalAccess.class",
+    "out/production/tricovid/com/google/gson/internal/bind/JsonTreeReader.class",
     "lib/gson/UserGuide.md",
     "README.md",
-    "lib/gson/settings.gradle",
-    "lib/gson/proto/src/main/protobuf/bag.proto",
-    "lib/gson/proto/src/main/protobuf/annotations.proto",
-    "lib/gson/proto/src/main/protobuf",
-    "lib/gson/metrics/src/main/java/com/google/gson/metrics/ParseBenchmarkData.zip",
-    "lib/gson/lib/gson-formatting-styles.xml",
-    "lib/gson/lib/gson-cleanup-styles.xml",
-    "lib/gson/lib",
-    "lib/gson/gson/src/test/java/com/google/gson/regression/JsonAdapterNullSafeTest.java",
-    "lib/gson/gson/src/test/java/com/google/gson/regression",
     "lib/gson/gson/docs/javadocs/resources/inherit.gif",
     "lib/gson/examples/android-proguard-example/res/drawable/icon.png",
     "lib/gson/test-shrinker/README.md",
@@ -220,7 +221,6 @@
     "gson/UserGuide.md",
     "gson/Troubleshooting.md",
     "gson/ReleaseProcess.md",
-    "gson/README.md",
     "doc/teams0.png",
     "doc/gitkraken.png"
   ]
