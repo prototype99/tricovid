@@ -61,7 +61,10 @@ public class Main {
     //do not start apirequest with a slash!
     static JsonNode download(String apiRequest){
         //retrieve data from online api
-        HttpResponse<JsonNode> response = Unirest.get("https://api.covid19api.com/" + apiRequest).asJson();
+        HttpResponse<JsonNode> response = Unirest.get(
+                "https://api.ukhsa-dashboard.data.gov.uk/"
+                        + apiRequest
+        ).asJson();
         //we must use getbody to get the part we care about
         return response.getBody();
     }
