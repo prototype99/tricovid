@@ -101,11 +101,15 @@ public class Main {
         boolean found = false;
         //make sure there's a string
         if(s != null && !s.isEmpty()){
-            for(CovidRecord c : data){
-                inputSuccess(lblRecoveryAll, lblRecoveryNew, lblCaseAll, lblCaseNew,
-                        lblDeathAll, lblDeathNew, c);
-                found = true;
-            }
+            inputSuccess(
+                    lblRecoveryAll,
+                    lblRecoveryNew,
+                    lblCaseAll,
+                    lblCaseNew,
+                    lblDeathAll,
+                    lblDeathNew
+            );
+            found = true;
         }
         if(!found) {
             inputFailure(lblRecoveryAll, lblRecoveryNew, lblCaseAll, lblCaseNew, lblDeathAll,
@@ -121,9 +125,14 @@ public class Main {
         lblCaseNew.setText("try");
         lblDeathNew.setText("again");
     }
-    static void inputSuccess(JLabel lblRecoveryAll, JLabel lblRecoveryNew, JLabel lblCaseAll,
-                             JLabel lblCaseNew, JLabel lblDeathAll, JLabel lblDeathNew,
-                             CovidRecord c){
+    static void inputSuccess(
+            JLabel lblRecoveryAll,
+            JLabel lblRecoveryNew,
+            JLabel lblCaseAll,
+            JLabel lblCaseNew,
+            JLabel lblDeathAll,
+            JLabel lblDeathNew
+    ){
         /*useful reading material:
         https://www.educative.io/edpresso/how-to-convert-an-integer-to-a-string-in-java
         https://stackoverflow.com/questions/3335737/integer-tostringint-i-vs-string-valueofint-i*/
