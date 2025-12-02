@@ -99,14 +99,12 @@ public class Main {
                            JLabel lblDeathNew){
         //sentinel value
         boolean found = false;
-        if(s.length() == 2 || s.length() > 3){
+        //make sure there's a string
+        if(s != null && !s.isEmpty()){
             for(CovidRecord c : data){
-                if(c.countryCode.equalsIgnoreCase(s) || c.countryInternalName.equalsIgnoreCase(s)
-                        || c.countryExternalName.equalsIgnoreCase(s)){
-                    inputSuccess(lblRecoveryAll, lblRecoveryNew, lblCaseAll, lblCaseNew,
-                            lblDeathAll, lblDeathNew, c);
-                    found = true;
-                }
+                inputSuccess(lblRecoveryAll, lblRecoveryNew, lblCaseAll, lblCaseNew,
+                        lblDeathAll, lblDeathNew, c);
+                found = true;
             }
         }
         if(!found) {
