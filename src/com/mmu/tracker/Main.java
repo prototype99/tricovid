@@ -122,8 +122,4 @@ public class Main {
     static void print(String apiRequest) {
         System.out.println(download(apiRequest));
     }
-    //if you need help with using the api
-    static void help() {
-        print("");
-    }
 }
