@@ -7,11 +7,9 @@ import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Main {
-    static ArrayList<CovidRecord> data;
     private JPanel mainPanel;
     @SuppressWarnings("unused")
     private SearchBar<String> searchBar;
