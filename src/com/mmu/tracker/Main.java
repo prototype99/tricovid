@@ -101,47 +101,24 @@ public class Main {
         boolean found = false;
         //make sure there's a string
         if(s != null && !s.isEmpty()){
-            setFields(
-                    lblRecoveryAll,
-                    lblRecoveryNew,
-                    lblCaseAll,
-                    lblCaseNew,
-                    lblDeathAll,
-                    lblDeathNew
-            );
-            found = true;
-        }
-        if(!found) {
-            inputFailure(lblRecoveryAll, lblRecoveryNew, lblCaseAll, lblCaseNew, lblDeathAll,
-                    lblDeathNew);
-        }
-    }
-    static void inputFailure(JLabel lblRecoveryAll, JLabel lblRecoveryNew, JLabel lblCaseAll,
-                             JLabel lblCaseNew, JLabel lblDeathAll, JLabel lblDeathNew){
-        lblRecoveryAll.setText("input");
-        lblCaseAll.setText("is");
-        lblDeathAll.setText("invalid");
-        lblRecoveryNew.setText("please");
-        lblCaseNew.setText("try");
-        lblDeathNew.setText("again");
-    }
-    static void setFields(
-            JLabel lblRecoveryAll,
-            JLabel lblRecoveryNew,
-            JLabel lblCaseAll,
-            JLabel lblCaseNew,
-            JLabel lblDeathAll,
-            JLabel lblDeathNew
-    ){
-        /*useful reading material:
+            /*useful reading material:
         https://www.educative.io/edpresso/how-to-convert-an-integer-to-a-string-in-java
         https://stackoverflow.com/questions/3335737/integer-tostringint-i-vs-string-valueofint-i*/
-        lblRecoveryAll.setText(Integer.toString(c.recoveryAll));
-        lblCaseAll.setText(Integer.toString(c.caseAll));
-        lblDeathAll.setText(Integer.toString(c.deathAll));
-        lblRecoveryNew.setText("+" + c.recoveryNew);
-        lblCaseNew.setText("+" + c.caseNew);
-        lblDeathNew.setText("+" + c.deathNew);
+            lblRecoveryAll.setText(Integer.toString(c.recoveryAll));
+            lblCaseAll.setText(Integer.toString(c.caseAll));
+            lblDeathAll.setText(Integer.toString(c.deathAll));
+            lblRecoveryNew.setText("+" + c.recoveryNew);
+            lblCaseNew.setText("+" + c.caseNew);
+            lblDeathNew.setText("+" + c.deathNew);
+        }
+        if(!found) {
+            lblRecoveryAll.setText("input");
+            lblCaseAll.setText("is");
+            lblDeathAll.setText("invalid");
+            lblRecoveryNew.setText("please");
+            lblCaseNew.setText("try");
+            lblDeathNew.setText("again");
+        }
     }
     //test function to review output. do not start apirequest with a slash!
     static void print(String apiRequest) {
