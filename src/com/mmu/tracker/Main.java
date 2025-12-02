@@ -101,7 +101,7 @@ public class Main {
         boolean found = false;
         //make sure there's a string
         if(s != null && !s.isEmpty()){
-            inputSuccess(
+            setFields(
                     lblRecoveryAll,
                     lblRecoveryNew,
                     lblCaseAll,
@@ -125,7 +125,7 @@ public class Main {
         lblCaseNew.setText("try");
         lblDeathNew.setText("again");
     }
-    static void inputSuccess(
+    static void setFields(
             JLabel lblRecoveryAll,
             JLabel lblRecoveryNew,
             JLabel lblCaseAll,
