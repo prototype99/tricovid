@@ -38,7 +38,7 @@ public class Main {
         //we load the data here to avoid hell
         loadData(searchBar);
         //query the data
-        searchBar.addActionListener(actionEvent -> loadCountry(
+        searchBar.addActionListener(actionEvent -> loadRegion(
                 Objects.requireNonNull(searchBar.getSelectedItem()).toString(),
                 lblRecoveryAll,
                 lblRecoveryNew,
@@ -94,9 +94,9 @@ public class Main {
             );
         }
     }
-    static void loadCountry(String s, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
-                            JLabel lblCaseAll, JLabel lblCaseNew, JLabel lblDeathAll,
-                            JLabel lblDeathNew){
+    static void loadRegion(String s, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
+                           JLabel lblCaseAll, JLabel lblCaseNew, JLabel lblDeathAll,
+                           JLabel lblDeathNew){
         //sentinel value
         boolean found = false;
         if(s.length() == 2 || s.length() > 3){
