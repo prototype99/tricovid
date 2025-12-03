@@ -27,6 +27,7 @@ public class Main {
     private JLabel lblDeathAll;
     @SuppressWarnings("unused")
     private JLabel lblDeathNew;
+    private static String requestRegion;
 
     /*combobox code inspired by:
     https://kodejava.org/how-do-i-set-and-get-the-selected-item-in-jcombobox/*/
@@ -60,7 +61,7 @@ public class Main {
     static JsonNode download(String apiRequest){
         //retrieve data from online api
         HttpResponse<JsonNode> response = Unirest.get(
-                "https://api.ukhsa-dashboard.data.gov.uk/"
+                "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
                         + apiRequest
         ).asJson();
         //we must use getbody to get the part we care about
@@ -72,7 +73,7 @@ public class Main {
         try {
             //get data
             regions = download(
-                    "themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
+                    ""
             )
                     .getArray();
             //iterate over all the regions
@@ -92,13 +93,26 @@ public class Main {
             );
         }
     }
-    static void loadRegion(String s, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
+    static void getData(String metric){
+        download(
+                requestRegion
+                        +
+                        metric
+        );
+    }
+    static void loadRegion(String searchBarTxt, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
                            JLabel lblCaseAll, JLabel lblCaseNew, JLabel lblDeathAll,
                            JLabel lblDeathNew){
         //sentinel value
         boolean found = false;
         //make sure there's a string
-        if(s != null && !s.isEmpty()){
+        if(searchBarTxt != null && !searchBarTxt.isEmpty()){
+            requestRegion = "/"
+                    +
+                    searchBarTxt
+                    +
+                    "/metrics/";
+            getData("COVID-19_deaths_ONSByWeek");
             /*useful reading material:
         https://www.educative.io/edpresso/how-to-convert-an-integer-to-a-string-in-java
         https://stackoverflow.com/questions/3335737/integer-tostringint-i-vs-string-valueofint-i*/
