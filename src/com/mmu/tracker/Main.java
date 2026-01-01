@@ -7,6 +7,7 @@ import kong.unirest.UnirestException;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
+import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.Objects;
 
@@ -65,6 +66,7 @@ public class Main {
         hasConnError = true;
     }
     //do not start apirequest with a slash!
+    @org.jetbrains.annotations.Nullable
     static JsonNode download(String apiRequest){
         HttpResponse<JsonNode> response;
         //retrieve data from online api
@@ -121,7 +123,7 @@ public class Main {
             }
         }
     }
-    static JSONObject getData(String metric) {
+    static @Nullable JSONObject getData(String metric) {
         String dlString=
                 requestRegion
                         +
