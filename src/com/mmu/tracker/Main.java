@@ -78,7 +78,6 @@ public class Main {
         //make sure variable is accessible
         JSONArray regions;
         try {
-            print("/Manchester/metrics");
             //get data
             JsonNode response = download(
                     ""
@@ -241,7 +240,7 @@ public class Main {
         }
     }
     //test function to review output. do not start apirequest with a slash!
-    static void print(String apiRequest) {
-        System.out.println(download(apiRequest));
-    }
+//    static void print(String apiRequest) {
+//        System.out.println(download(apiRequest));
+//    }
 }
