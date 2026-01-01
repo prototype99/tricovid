@@ -39,8 +39,6 @@ public class Main {
         //query the data
         searchBar.addActionListener(actionEvent -> loadRegion(
                 Objects.requireNonNull(searchBar.getSelectedItem()).toString(),
-                lblRecoveryAll,
-                lblRecoveryNew,
                 lblCaseAll,
                 lblCaseNew, lblDeathAll,
                 lblDeathNew
@@ -100,9 +98,13 @@ public class Main {
                         metric
         );
     }
-    static void loadRegion(String searchBarTxt, JLabel lblRecoveryAll, JLabel lblRecoveryNew,
-                           JLabel lblCaseAll, JLabel lblCaseNew, JLabel lblDeathAll,
-                           JLabel lblDeathNew){
+    static void loadRegion(
+            String searchBarTxt,
+            JLabel lblCaseAll,
+            JLabel lblCaseNew,
+            JLabel lblDeathAll,
+            JLabel lblDeathNew
+    ){
         //sentinel value
         boolean found = false;
         //make sure there's a string
@@ -113,21 +115,18 @@ public class Main {
                     +
                     "/metrics/";
             getData("COVID-19_deaths_ONSByWeek");
+            getData("COVID-19_testing_positivity7DayRolling");
             /*useful reading material:
         https://www.educative.io/edpresso/how-to-convert-an-integer-to-a-string-in-java
         https://stackoverflow.com/questions/3335737/integer-tostringint-i-vs-string-valueofint-i*/
-            lblRecoveryAll.setText(Integer.toString(c.recoveryAll));
             lblCaseAll.setText(Integer.toString(c.caseAll));
             lblDeathAll.setText(Integer.toString(c.deathAll));
-            lblRecoveryNew.setText("+" + c.recoveryNew);
             lblCaseNew.setText("+" + c.caseNew);
             lblDeathNew.setText("+" + c.deathNew);
         }
         if(!found) {
-            lblRecoveryAll.setText("input");
             lblCaseAll.setText("is");
             lblDeathAll.setText("invalid");
-            lblRecoveryNew.setText("please");
             lblCaseNew.setText("try");
             lblDeathNew.setText("again");
         }
