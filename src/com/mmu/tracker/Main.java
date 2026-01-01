@@ -91,13 +91,42 @@ public class Main {
             );
         }
     }
-    static void getData(String metric){
-        download(
+    static JSONObject getData(String metric) {
+        String dlString=
                 requestRegion
                         +
                         metric
-        );
+                        +
+                        "?page_size=1"
+                ;
+
+        // get the last page which contains the latest metric
+        JsonNode lastPage =
+                download(
+                        dlString
+                                +
+                                "&page="
+                                +
+                                // get the count of results
+                                download(
+                                        dlString
+                                ).getObject()
+                                        .getInt(
+                                                "count"
+                                        )
+                        )
+                ;
+        return
+                lastPage
+                        .getObject()
+                        .getJSONArray(
+                                "results"
+                        ).getJSONObject(
+                                0
+                        )
+                ;
     }
+
     static void loadRegion(
             String searchBarTxt,
             JLabel lblCaseAll,
@@ -109,24 +138,63 @@ public class Main {
         boolean found = false;
         //make sure there's a string
         if(searchBarTxt != null && !searchBarTxt.isEmpty()){
-            requestRegion = "/"
-                    +
-                    searchBarTxt
-                    +
-                    "/metrics/";
-            getData("COVID-19_deaths_ONSByWeek");
-            getData("COVID-19_testing_positivity7DayRolling");
-            /*useful reading material:
-        https://www.educative.io/edpresso/how-to-convert-an-integer-to-a-string-in-java
-        https://stackoverflow.com/questions/3335737/integer-tostringint-i-vs-string-valueofint-i*/
-            lblCaseAll.setText(Integer.toString(c.caseAll));
-            lblDeathAll.setText(Integer.toString(c.deathAll));
-            lblCaseNew.setText("+" + c.caseNew);
-            lblDeathNew.setText("+" + c.deathNew);
+            try {
+                requestRegion = "/"
+                        +
+                        searchBarTxt
+                        +
+                        "/metrics/"
+                ;
+                JSONObject deaths = getData(
+                        "COVID-19_deaths_ONSByWeek"
+                );
+                JSONObject cases = getData(
+                        "COVID-19_testing_positivity7DayRolling"
+                );
+                lblCaseAll
+                        .setText(
+                                String.valueOf(
+                                        cases
+                                                .getDouble(
+                                                        "metric_value"
+                                                )
+                                )
+                        )
+                ;
+                lblCaseNew
+                        .setText(
+                                cases
+                                        .getString(
+                                                "date"
+                                        )
+                        )
+                ;
+                lblDeathAll
+                        .setText(
+                                String.valueOf(
+                                        deaths
+                                                .getDouble(
+                                                        "metric_value"
+                                                )
+                                )
+                        )
+                ;
+                lblDeathNew
+                        .setText(
+                                deaths
+                                        .getString(
+                                                "date"
+                                        )
+                        )
+                ;
+                found = true;
+            } catch (Exception e) {
+                System.out.println("Failed to load region data: " + e.getMessage());
+            }
         }
         if(!found) {
-            lblCaseAll.setText("is");
-            lblDeathAll.setText("invalid");
+            lblCaseAll.setText("invalid");
+            lblDeathAll.setText("location");
             lblCaseNew.setText("try");
             lblDeathNew.setText("again");
         }
