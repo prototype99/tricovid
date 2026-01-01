@@ -29,6 +29,7 @@ public class Main {
     @SuppressWarnings("unused")
     private JLabel lblDeathNew;
     private static String requestRegion;
+    private static boolean hasConnError = false;
 
     /*combobox code inspired by:
     https://kodejava.org/how-do-i-set-and-get-the-selected-item-in-jcombobox/*/
@@ -56,19 +57,30 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
     }
+    //deduplicate connection error messages
+    private static void connError(){
+        System.out.println(
+                "failed to download data, is your internet connection working?"
+        );
+        hasConnError = true;
+    }
     //do not start apirequest with a slash!
     static JsonNode download(String apiRequest){
         HttpResponse<JsonNode> response;
         //retrieve data from online api
-        try {
-            response = Unirest.get(
-                    "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
-                            + apiRequest
-            ).asJson();
-        } catch (
-                UnirestException e
-        ) {
-            System.out.println("unable to download data, do you have an active network connection?");
+        if(!hasConnError){
+            try {
+                response = Unirest.get(
+                        "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
+                                + apiRequest
+                ).asJson();
+            } catch (
+                    UnirestException e
+            ) {
+                connError();
+                return null;
+            }
+        } else {
             return null;
         }
         //we must use getbody to get the part we care about
@@ -77,34 +89,36 @@ public class Main {
     static void loadData(JComboBox<String> searchBar){
         //make sure variable is accessible
         JSONArray regions;
-        try {
-            //get data
-            JsonNode response = download(
-                    ""
-            );
-            if (response == null) {
+        if (!hasConnError) {
+            try {
+                //get data
+                JsonNode response = download(
+                        ""
+                );
+                if (response == null) {
+                    System.out.println(
+                            "no data returned, has the api changed?"
+                    );
+                    return;
+                }
+                regions = response
+                        .getArray();
+                //iterate over all the regions
+                for(Object region : regions){
+                    //add each region to the dropdown list
+                    searchBar.addItem(
+                            (
+                                    (JSONObject) region
+                            ).getString(
+                                    "name"
+                            )
+                    );
+                }
+            } catch (JSONException | NullPointerException e) {
                 System.out.println(
-                        "failed to download data, is your internet connection working?"
-                );
-                return;
-            }
-            regions = response
-                    .getArray();
-            //iterate over all the regions
-            for(Object region : regions){
-                //add each region to the dropdown list
-                searchBar.addItem(
-                        (
-                                (JSONObject) region
-                        ).getString(
-                                "name"
-                        )
+                        "json parsing failed, is data correct? try clicking refresh"
                 );
             }
-        } catch (JSONException | NullPointerException e) {
-            System.out.println(
-                    "json parsing failed, is data correct? try clicking refresh"
-            );
         }
     }
     static JSONObject getData(String metric) {
@@ -121,9 +135,7 @@ public class Main {
                 dlString
         );
         if (response == null) {
-            System.out.println(
-                    "failed to download data, is your internet connection working?"
-            );
+            connError();
             return null;
         }
 
