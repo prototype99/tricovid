@@ -3,3 +3,8 @@ doc/report.lyx~
 doc/report.pdf
 videos
 out/
+build/
+
+gradle/
+
+.gradle/
