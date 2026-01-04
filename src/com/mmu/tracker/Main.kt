@@ -10,8 +10,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kong.unirest.Unirest
 import kong.unirest.json.JSONObject
-import kong.unirest.json.JSONException
-import java.util.Objects
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "TriCovid") {
