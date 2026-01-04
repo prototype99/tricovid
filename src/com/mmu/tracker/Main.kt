@@ -11,6 +11,8 @@ import androidx.compose.ui.window.application
 import kong.unirest.Unirest
 import kong.unirest.json.JSONObject
 
+const val apiStr = "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
+
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "TriCovid") {
         App()
@@ -71,7 +73,6 @@ fun App() {
                 }
                 Spacer(Modifier.width(8.dp))
                 Button(onClick = {
-                    isRefreshing = true
                     // In a real app, use Coroutines for IO
                     regions = loadRegions()
                     isRefreshing = false
@@ -107,7 +108,7 @@ data class CovidData(val caseAll: String, val caseNew: String, val deathAll: Str
 
 fun loadRegions(): List<String> {
     return try {
-        val response = Unirest.get("https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies").asJson()
+        val response = Unirest.get(apiStr).asJson()
         val regions = response.body.array
         (0 until regions.length()).map { 
             regions.getJSONObject(it).getString("name") 
@@ -140,10 +141,10 @@ fun loadRegionData(region: String): CovidData {
 
 fun getData(requestRegion: String, metric: String): JSONObject? {
     return try {
-        val dlString = requestRegion + metric + "?page_size=1"
-        val response = Unirest.get("https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies$dlString").asJson()
+        val dlString = "$apiStr$requestRegion$metric?page_size=1"
+        val response = Unirest.get(dlString).asJson()
         val count = response.body.`object`.getInt("count")
-        val lastPage = Unirest.get("https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies$dlString&page=$count").asJson()
+        val lastPage = Unirest.get("$dlString&page=$count").asJson()
         lastPage.body.`object`.getJSONArray("results").getJSONObject(0)
     } catch (e: Exception) {
         null
