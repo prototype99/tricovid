@@ -15,6 +15,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 import okhttp3.Protocol
@@ -56,6 +57,7 @@ class RegionResponse : ArrayList<Region>()
 
 @Serializable
 data class MetricData(
+    @SerialName("metric_value")
     val metricValue: Double,
     val date: String
 )
@@ -213,6 +215,7 @@ suspend fun getData(requestRegion: String, metric: String): MetricData? {
             ).body<MetricResponse>()
         val count = initialResponse
             .count
+        if (count == 0) return null
         val lastPage = client
             .get(
                 "$dlString&page=$count"
@@ -221,6 +224,8 @@ suspend fun getData(requestRegion: String, metric: String): MetricData? {
             .results
             .firstOrNull()
     } catch (e: Exception) {
+        println("[DEBUG_LOG] Error in getData: ${e.message}")
+        e.printStackTrace()
         null
     }
 }
