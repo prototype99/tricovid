@@ -25,6 +25,7 @@ dependencies {
     implementation("com.konghq:unirest-java:3.11.07")
     // GSON is already in lib, but for Gradle it's better to declare it
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("io.ktor:ktor-client-okhttp:2.3.5")
 }
 
 compose.desktop {
