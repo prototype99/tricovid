@@ -8,13 +8,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import kong.unirest.Unirest
-import kong.unirest.json.JSONObject
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.*
 import okhttp3.Protocol
 
 const val apiStr = "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
+
+val client = HttpClient(OkHttp) {
+    install(
+        ContentNegotiation
+    ) {
+        json(
+            Json {
+            ignoreUnknownKeys = true
+            prettyPrint = true
+            isLenient = true
+            }
+        )
+    }
+    engine {
+        config {
+            protocols(
+                listOf(
+                    Protocol.HTTP_2,
+                    Protocol.HTTP_1_1,
+                    Protocol.QUIC
+                )
+            )
+        }
+    }
+}
+
+@Serializable
+data class Region(
+    val name: String
+)
+
+@Serializable
+class RegionResponse : ArrayList<Region>()
+
+@Serializable
+data class MetricData(
+    val metricValue: Double,
+    val date: String
+)
+
+@Serializable
+data class MetricResponse(
+    val count: Int,
+    val results: List<MetricData>
+)
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "TriCovid") {
@@ -30,24 +80,9 @@ fun App() {
     var caseNew by remember { mutableStateOf("To") }
     var deathAll by remember { mutableStateOf("Enter") }
     var deathNew by remember { mutableStateOf("Search") }
-    var isRefreshing by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        val client = HttpClient(
-            OkHttp
-        ) {
-            engine {
-                config {
-                    protocols(
-                        listOf(
-                            Protocol.HTTP_2,
-                            Protocol.HTTP_1_1,
-                            Protocol.QUIC
-                        )
-                    )
-                }
-            }
-        }
         regions = loadRegions()
     }
 
@@ -77,11 +112,13 @@ fun App() {
                                 selectedRegion = region
                                 expanded = false
                                 // Load data for region
-                                val data = loadRegionData(region)
-                                caseAll = data.caseAll
-                                caseNew = data.caseNew
-                                deathAll = data.deathAll
-                                deathNew = data.deathNew
+                                scope.launch {
+                                    val data = loadRegionData(region)
+                                    caseAll = data.caseAll
+                                    caseNew = data.caseNew
+                                    deathAll = data.deathAll
+                                    deathNew = data.deathNew
+                                }
                             }) {
                                 Text(region)
                             }
@@ -90,9 +127,9 @@ fun App() {
                 }
                 Spacer(Modifier.width(8.dp))
                 Button(onClick = {
-                    // In a real app, use Coroutines for IO
-                    regions = loadRegions()
-                    isRefreshing = false
+                    scope.launch {
+                        regions = loadRegions()
+                    }
                 }) {
                     Text("↻")
                 }
@@ -123,19 +160,21 @@ fun DataCard(title: String, allValue: String, newValue: String, modifier: Modifi
 
 data class CovidData(val caseAll: String, val caseNew: String, val deathAll: String, val deathNew: String)
 
-fun loadRegions(): List<String> {
+suspend fun loadRegions(): List<String> {
     return try {
-        val response = Unirest.get(apiStr).asJson()
-        val regions = response.body.array
-        (0 until regions.length()).map { 
-            regions.getJSONObject(it).getString("name") 
+        val regions = client
+            .get(
+                apiStr
+            ).body<List<Region>>()
+        regions.map {
+            it.name
         }
     } catch (e: Exception) {
         emptyList()
     }
 }
 
-fun loadRegionData(region: String): CovidData {
+suspend fun loadRegionData(region: String): CovidData {
     return try {
         val requestRegion = "/$region/metrics/"
         val deaths = getData(requestRegion, "COVID-19_deaths_ONSByWeek")
@@ -143,10 +182,19 @@ fun loadRegionData(region: String): CovidData {
         
         if (deaths != null && cases != null) {
             CovidData(
-                cases.getDouble("metric_value").toString(),
-                cases.getString("date"),
-                deaths.getDouble("metric_value").toString(),
-                deaths.getString("date")
+                cases
+                    .metricValue
+                    .toString()
+                ,
+                cases
+                    .date
+                ,
+                deaths
+                    .metricValue
+                    .toString()
+                ,
+                deaths
+                    .date
             )
         } else {
             CovidData("invalid", "try", "location", "again")
@@ -156,13 +204,22 @@ fun loadRegionData(region: String): CovidData {
     }
 }
 
-fun getData(requestRegion: String, metric: String): JSONObject? {
+suspend fun getData(requestRegion: String, metric: String): MetricData? {
     return try {
         val dlString = "$apiStr$requestRegion$metric?page_size=1"
-        val response = Unirest.get(dlString).asJson()
-        val count = response.body.`object`.getInt("count")
-        val lastPage = Unirest.get("$dlString&page=$count").asJson()
-        lastPage.body.`object`.getJSONArray("results").getJSONObject(0)
+        val initialResponse = client
+            .get(
+                dlString
+            ).body<MetricResponse>()
+        val count = initialResponse
+            .count
+        val lastPage = client
+            .get(
+                "$dlString&page=$count"
+            ).body<MetricResponse>()
+        lastPage
+            .results
+            .firstOrNull()
     } catch (e: Exception) {
         null
     }
