@@ -8,8 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import kong.unirest.Unirest
 import kong.unirest.json.JSONObject
+import okhttp3.Protocol
 
 const val apiStr = "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Lower%20Tier%20Local%20Authority/geographies"
 
@@ -30,7 +33,21 @@ fun App() {
     var isRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        Unirest.config().socketTimeout(0).connectTimeout(0)
+        val client = HttpClient(
+            OkHttp
+        ) {
+            engine {
+                config {
+                    protocols(
+                        listOf(
+                            Protocol.HTTP_2,
+                            Protocol.HTTP_1_1,
+                            Protocol.QUIC
+                        )
+                    )
+                }
+            }
+        }
         regions = loadRegions()
     }
 
