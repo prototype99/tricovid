@@ -30,8 +30,6 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    // GSON is already in lib, but for Gradle it's better to declare it
-    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 compose.desktop {
